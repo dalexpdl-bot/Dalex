@@ -1,0 +1,360 @@
+/* 1. Configuraciones Globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6; /* Fondo claro para que resalten las tarjetas */
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding-bottom: 100px; /* Espacio para el carrito flotante */
+}
+
+/* 2. Header (Tu estilo actual mejorado) */
+header {
+    text-align: center;
+    padding: 30px 0;
+    background-color: #ffffff;
+    margin-bottom: 40px;
+    border-radius: 0 0 40px 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.logo {
+    max-width: 280px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+header p i {
+    color: #a4161a;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* 3. Contenedor de Cuadrícula */
+.contenedor-productos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 productos por lado */
+    gap: 30px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 4. Tarjeta de Producto (Estilo de la Imagen) */
+.producto-card {
+    background: #d7d4d4;
+    padding: 35px;
+    border-radius: 45px; /* Bordes muy redondos como la imagen */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(18, 18, 18, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+}
+
+.borde-rojo-superior {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: #a4161a; /* Rojo Dalex */
+}
+
+/* Espacio para la imagen del galón */
+.producto-imagen-container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 5. Textos del Producto */
+.producto-info h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #000;
+}
+
+.variante {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.descripcion {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* 6. Aromas en Horizontal */
+.aromas-flex {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.aroma-item {
+    cursor: pointer;
+}
+
+.aroma-item input { display: none; }
+
+.aroma-circulo {
+    width: 55px;
+    height: 55px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.aroma-item input:checked + .aroma-circulo {
+    border-color: #a4161a;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(164, 22, 26, 0.2);
+}
+
+.aroma-item span {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* 7. Selector de Precios (Estilo Píldora de la Imagen) */
+.pildora-precios {
+    display: flex;
+    background: #f0f0f0; /* Gris claro de fondo */
+    border-radius: 50px;
+    padding: 6px;
+    margin-top: auto; /* Empuja hacia abajo */
+}
+
+.opcion-pildora {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 14px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #000;
+}
+
+/* Efecto al pasar el mouse o al seleccionar (puedes añadir la clase activo con JS) */
+.opcion-pildora:hover {
+    background: #1a1a1a; /* Negro como en la imagen */
+    color: white;
+}
+
+/* 8. Estilos del Carrito (Tus funciones actuales) */
+#ver-carrito {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fffb01;
+    color: white;
+    padding: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
+    z-index: 1000;
+}
+
+#modal-carrito {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+}
+
+.modal-contenido {
+    background: rgba(206, 203, 203, 0.817);
+    width: 90%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.btn-whatsapp {
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* 9. Responsivo */
+@media (max-width: 768px) {
+    .contenedor-productos {
+        grid-template-columns: 1fr; /* Un solo producto en móvil */
+    }
+    
+    .producto-card {
+        margin: 10px;
+    }
+}
+/* Ajuste para que la imagen quepa perfecto en el círculo */
+.img-icono-circulo {
+    width: 80%; /* Para que respire un poco dentro del círculo */
+    height: 80%;
+    object-fit: contain;
+    border-radius: 50%; /* Mantiene la forma circular */
+}
+
+/* Opcional: Si quieres que el círculo del desengrasante resalte un poco más */
+.producto-card:last-child .aroma-circulo {
+    background: #e9ecef;
+    border: 1px solid #dee2e6;
+    cursor: default; /* Como no es para seleccionar aroma, quitamos la mano */
+}
+/* BOTÓN FLOTANTE DEL CARRITO */
+#btn-carrito-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #a4161a; /* Rojo Dalex */
+    color: white;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+#btn-carrito-flotante:hover {
+    transform: scale(1.1);
+}
+
+#carrito-conteo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #0077b6; /* Azul brillante */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+/* MODAL DEL CARRITO */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-header {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+/* LISTA DE PRODUCTOS */
+#lista-carrito {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.item-carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-quitar {
+    color: #e63946;
+    background: #fff0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* BOTÓN WHATSAPP */
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
