@@ -26,8 +26,8 @@ function efectoVuelo(e) {
     setTimeout(() => {
         particula.remove();
         carritoIcono.classList.add('animar-carrito');
-        setTimeout(() => carritoIcono.classList.remove('animar-carrito'), 400);
-    }, 4100); // Mantiene tus 4 segundos de vuelo
+        setTimeout(() => carritoIcono.classList.remove('animar-carrito'), 300);
+    }, 3100); // Mantiene tus 3 segundos de vuelo
 }
 
 // --- FUNCIONES DE INTERFAZ ---
