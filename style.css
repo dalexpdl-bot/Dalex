@@ -96,7 +96,7 @@ header p i {
 
 .descripcion {
     font-size: 0.95rem;
-    color: #000000;
+    color: #555;
     margin-bottom: 25px;
 }
 
@@ -142,7 +142,7 @@ header p i {
 /* 7. Selector de Precios (Estilo Píldora de la Imagen) */
 .pildora-precios {
     display: flex;
-    background: #f9f6f6; /* Gris claro de fondo */
+    background: #f0f0f0; /* Gris claro de fondo */
     border-radius: 50px;
     padding: 6px;
     margin-top: auto; /* Empuja hacia abajo */
@@ -158,12 +158,12 @@ header p i {
     font-size: 0.95rem;
     cursor: pointer;
     transition: 0.3s;
-    color: #000000;
+    color: #000;
 }
 
 /* Efecto al pasar el mouse o al seleccionar (puedes añadir la clase activo con JS) */
 .opcion-pildora:hover {
-    background: #000000; /* Negro como en la imagen */
+    background: #1a1a1a; /* Negro como en la imagen */
     color: white;
 }
 
@@ -172,7 +172,7 @@ header p i {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #fffb00;
+    background: #fffb01;
     color: white;
     padding: 18px;
     border-radius: 50%;
@@ -192,7 +192,7 @@ header p i {
 }
 
 .modal-contenido {
-    background: rgba(255, 255, 255);
+    background: rgba(206, 203, 203, 0.817);
     width: 90%;
     max-width: 500px;
     margin: 50px auto;
@@ -357,32 +357,4 @@ header p i {
     justify-content: center;
     gap: 10px;
     box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-}/* Animación de sacudida para el carrito */
-@keyframes shake-carrito {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.3) rotate(15deg); }
-  50% { transform: scale(1.3) rotate(-15deg); }
-  100% { transform: scale(1); }
-}
-
-.animar-carrito {
-  animation: shake-carrito 0.4s ease-in-out;
-}
-
-/* El puntito que vuela */
-.particula-vuelo {
-  position: fixed;
-  background: #b01a2e;
-  color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  z-index: 9999;
-  pointer-events: none;
-  transition: all 4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
