@@ -1,12 +1,36 @@
 let carrito = [];
 let total = 0;
 
-// --- FUNCIONES DE INTERFAZ PARA EL DISEÑO NUEVO ---
+// --- FUNCIÓN DE ANIMACIÓN VISUAL (EL EFECTO DE VUELO) ---
+function efectoVuelo(e) {
+    if (!e) return;
 
-/**
- * Actualiza el texto descriptivo del aroma en la tarjeta cuando el usuario hace clic en los iconos.
- * Esta función es necesaria para que el usuario vea qué aroma tiene seleccionado.
- */
+    const particula = document.createElement('div');
+    particula.classList.add('particula-vuelo');
+    particula.innerText = '+1';
+    
+    particula.style.left = e.clientX + 'px';
+    particula.style.top = e.clientY + 'px';
+    document.body.appendChild(particula);
+    
+    const carritoIcono = document.getElementById('ver-carrito');
+    const rect = carritoIcono.getBoundingClientRect();
+    
+    setTimeout(() => {
+        particula.style.left = (rect.left + 20) + 'px';
+        particula.style.top = (rect.top + 20) + 'px';
+        particula.style.opacity = '0';
+        particula.style.transform = 'scale(0.3)';
+    }, 50);
+    
+    setTimeout(() => {
+        particula.remove();
+        carritoIcono.classList.add('animar-carrito');
+        setTimeout(() => carritoIcono.classList.remove('animar-carrito'), 300);
+    }, 3100); // Mantiene tus 3 segundos de vuelo
+}
+
+// --- FUNCIONES DE INTERFAZ ---
 function actualizarTextoAroma(aroma) {
     const displayNombre = document.getElementById('nombre-aroma');
     if (displayNombre) {
@@ -14,39 +38,25 @@ function actualizarTextoAroma(aroma) {
     }
 }
 
-// --- LÓGICA DEL CARRITO (Tus funciones originales mejoradas) ---
-
-/**
- * Especial para el Multiusos: Obtiene el aroma de los radio buttons 
- * y lo combina con el tamaño seleccionado.
- */
+// --- LÓGICA DEL CARRITO ---
 function agregarMultiusos(presentacion, precio) {
-    // Buscamos cuál de los botones de aroma está seleccionado
     const aromaSeleccionado = document.querySelector('input[name="aroma"]:checked').value;
-    
-    // Creamos el nombre completo del producto
     let nombreCompleto = `Multiusos ${aromaSeleccionado} (${presentacion})`;
     
-    // Lo mandamos a la función principal del carrito
+    efectoVuelo(window.event);
     agregarAlCarrito(nombreCompleto, precio);
 }
 
-/**
- * Agrega cualquier producto al arreglo y actualiza la vista.
- */
 function agregarAlCarrito(producto, precio) {
+    if (window.event && !producto.includes("Multiusos")) {
+        efectoVuelo(window.event);
+    }
+
     carrito.push({ nombre: producto, precio: precio });
     actualizarInterfaz();
-    
-    // Opcional: Feedback visual de que se agregó
-    console.log(`Agregado: ${producto} - $${precio}`);
 }
 
-/**
- * Actualiza el contador circular y la lista dentro del modal.
- */
 function actualizarInterfaz() {
-    // Actualizar el número del círculo azul/verde
     const conteoElemento = document.getElementById('carrito-conteo');
     if (conteoElemento) {
         conteoElemento.innerText = carrito.length;
@@ -75,16 +85,12 @@ function actualizarInterfaz() {
     document.getElementById('total-carrito').innerText = total;
 }
 
-/**
- * Elimina un producto específico por su posición en el arreglo.
- */
 function eliminarDelCarrito(index) {
     carrito.splice(index, 1); 
     actualizarInterfaz(); 
 }
 
 // --- FUNCIONES DEL MODAL ---
-
 function mostrarModal() {
     document.getElementById('modal-carrito').style.display = "block";
 }
@@ -93,7 +99,6 @@ function cerrarModal() {
     document.getElementById('modal-carrito').style.display = "none";
 }
 
-// Cerrar modal si el usuario hace clic fuera del cuadro blanco
 window.onclick = function(event) {
     let modal = document.getElementById('modal-carrito');
     if (event.target == modal) {
@@ -101,26 +106,40 @@ window.onclick = function(event) {
     }
 }
 
-// --- ENVÍO A WHATSAPP ---
-
+// --- ENVÍO A WHATSAPP Y REGISTRO EN HISTORIAL ---
 function enviarWhatsApp() {
     if (carrito.length === 0) {
         alert("Agrega productos antes de enviar el pedido");
         return;
     }
 
-    let mensaje = "Hola Dalex! Me gustaría hacer el siguiente pedido:%0A%0A";
+    // 1. Preparamos el resumen para el historial
+    let resumenPedido = "";
+    carrito.forEach(item => {
+        resumenPedido += `- ${item.nombre} ($${item.precio})\n`;
+    });
+    resumenPedido += `\nTOTAL: $${total}`;
+
+    // 2. ENVÍO AL HISTORIAL DE GOOGLE (Invisible para el cliente)
+    const idForm = "1FAIpQLSc8DaND0M0G8TY6xiGQ7dUtEJGI0MZ-XmnFuFX8AeSTxouCZA";
+    const urlForm = `https://docs.google.com/forms/d/e/${idForm}/formResponse`;
     
+    const datos = new FormData();
+    datos.append("entry.101865169", resumenPedido); // Tu ID de la pregunta "Pedido"
+
+    fetch(urlForm, {
+        method: "POST",
+        mode: "no-cors"
+    }).catch(err => console.log("Error al guardar historial"));
+
+    // 3. ENVÍO A WHATSAPP (Lo que ve el cliente)
+    let mensaje = "Hola Dalex! Me gustaría hacer el siguiente pedido:%0A%0A";
     carrito.forEach(item => {
         mensaje += `• ${item.nombre} ($${item.precio})%0A`;
     });
-    
     mensaje += `%0A*Total a pagar: $${total}*`;
     
-    // Tu número configurado (Juárez)
     let telefono = "526568169707"; 
-    
     let url = "https://api.whatsapp.com/send?phone=" + telefono + "&text=" + mensaje;
-    
     window.open(url, '_blank');
 }
